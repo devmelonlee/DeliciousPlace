@@ -13,7 +13,7 @@ public class App {
 
     System.out.printf("성별(남자(M), 여자(W)): %c\n", 'M');
 
-    System.out.printf("리뷰 내용: %s", "사장님이 친절하고 음식이 맛있었어요!");
+    System.out.println("리뷰 내용: %s" + "사장님이 친절하고 음식이 맛있었어요!");
     
     System.out.printf("영수증: %b\n", true);
 
