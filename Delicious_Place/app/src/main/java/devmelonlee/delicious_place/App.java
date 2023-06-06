@@ -9,53 +9,103 @@ public class App {
     
     Scanner sc = new Scanner(System.in);
 
-    final int SIZE = 100;
+    final int MAX_SIZE = 100;
+    int userId = 1;
+    int length = 0;
 
-    int[] no = new int[SIZE];
-    String[] id = new String[SIZE];
-    int[] age = new int[SIZE];
-    char[] gender = new char[SIZE];
-    String[] content = new String[SIZE];
-    boolean[] isReceipt = new boolean[SIZE];
-    int[] starRaiting = new int[SIZE];
+    int[] no = new int[MAX_SIZE];
+    String[] id = new String[MAX_SIZE];
+    String[] email = new String[MAX_SIZE];
+    String[] password = new String[MAX_SIZE];
+    char[] gender = new char[MAX_SIZE];
 
-    for (int i = 0; i < SIZE; i++) {
-      System.out.print("번호? ");
-      no[i] = sc.nextInt();
-  
-      System.out.print("아이디? ");
+    String[] content = new String[MAX_SIZE];
+    int[] isReceipt = new int[MAX_SIZE];
+    int[] starRaiting = new int[MAX_SIZE];
+
+    //리뷰 정보 등록
+    for (int i = 0; i < MAX_SIZE; i++) {
+
+      System.out.print("아이디를 입력해주세요 : ");
       id[i] = sc.next();
-  
-      System.out.print("나이? ");
-      age[i] = sc.nextInt();
-  
-      System.out.print("성별(남자:M, 여자:W)? ");
-      String str = sc.next();
-      gender[i] = str.charAt(0);
-  
+
+      System.out.print("이메일을 입력해주세요 : ");
+      email[i] = sc.next();
+
+      System.out.print("암호를 입력해주세요 : ");
+      password[i] = sc.next();
+
+      loop: while (true) {
+        System.out.println("성별을 입력해주세요 : ");
+        System.out.println("  1. 남자");
+        System.out.println("  2. 여자");
+        System.out.println("  3. 선택하지 않음");
+        System.out.print("> ");
+        String menuNo = sc.next();
+
+        switch (menuNo) {
+          case "1":
+            gender[i] = 'M';
+            break loop;
+          case "2":
+            gender[i] = 'W';
+            break loop;
+          case "3":
+            gender[i] = 'N';
+            break loop;  
+          default:
+            System.out.println("유효한 번호로 입력해주세요!");
+        }
+      }
+
       System.out.print("리뷰 내용을 적어주세요 : ");
       content[i] = sc.next();
-      
-      System.out.print("영수증 있으신가요? : ");
-      isReceipt[i] = sc.nextBoolean();
-  
-      System.out.print("평점은요 (1, 2, 3, 4, 5)? : ");
-      starRaiting[i] = sc.nextInt();
+
+      loop: while (true) {
+        System.out.print("영수증 있으신가요? 예: 1, 아니오 : 2): ");
+        int validReceipt = sc.nextInt();
+        switch (validReceipt) {
+          case 1:
+            isReceipt[i] = 1;
+            break loop;
+          case 2:
+            isReceipt[i] = 2;
+            break loop;
+          default:
+            System.out.println("유효한 번호로 입력해주세요!");
+        }
+      }
+
+      while (true) {
+        System.out.print("평점은요 (1, 2, 3, 4, 5)? : ");
+        int validStarRaiting = sc.nextInt();
+        if (validStarRaiting >= 1 && validStarRaiting <= 5) {
+          starRaiting[i] = validStarRaiting;
+          break;
+        }
+        System.out.println("유효한 번호로 입력해주세요!");
+      }
+
+      no[i] = userId++;
+      length++;
+      System.out.print("계속 입력하시겠습니까?(Y/n) ");
+      sc.nextLine(); // 이전에 next()를 실행한 후 남아 있던 줄바꿈 코드를 제거한다.
+      String response = sc.nextLine();
+      if (!response.equals("") && !response.equalsIgnoreCase("Y")) {
+        break;
+      }
     }
 
     System.out.println("---------------------------------------");
 
-    for (int i = 0; i < SIZE; i++) {
-    System.out.printf("번호: %d\n", no[i]);
-    System.out.printf("아이디: %s\n", id[i]);
-    System.out.printf("나이: %d\n", age[i]);
-    System.out.printf("성별(남자(M), 여자(W)): %c\n", gender[i]);
-    
-    System.out.printf("리뷰 내용: %s\n", content[i]);
-    System.out.printf("영수증: %b\n", isReceipt[i]);
-    System.out.printf("평점: %d\n", starRaiting[i]);
+    for (int i = 0; i < length; i++) {
+      System.out.println("번호, 이름, 이메일, 성별");
+      System.out.println("---------------------------------------");
+      System.out.printf("%d, %s, %s, %c\n", no[i], id[i], email[i], gender[i]);
+      System.out.println("리뷰 내용 : " + content[i]);
+      System.out.println("영수증 여부 : "+ isReceipt[i] + " 별점 : " + starRaiting[i]);
+      System.out.println("---------------------------------------");
     }
-
     sc.close();
   }
 }
