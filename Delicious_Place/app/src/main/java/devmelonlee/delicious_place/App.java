@@ -3,36 +3,45 @@ package devmelonlee.delicious_place;
 import java.util.Scanner;
 
 public class App {
+
+  static Scanner sc = new Scanner(System.in);
+  
+  static final int MAX_SIZE = 100;
+  
+  static int[] no = new int[MAX_SIZE];
+  static String[] id = new String[MAX_SIZE];
+  static String[] email = new String[MAX_SIZE];
+  static String[] password = new String[MAX_SIZE];
+  static char[] gender = new char[MAX_SIZE];
+  
+  static String[] content = new String[MAX_SIZE];
+  static char[] isReceipt = new char[MAX_SIZE];
+  static int[] starRaiting = new int[MAX_SIZE];
+  
+  static int userId = 1;
+  static int length = 0;
+
+  static final char MALE = 'M';
+  static final char FEMALE = 'W';
+  static final char NONSEX = 'X';
+
+  static final char YES = 'Y';
+  static final char NO = 'N';
+
   public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in);
-    
-    final int MAX_SIZE = 100;
-    int userId = 1;
-    int length = 0;
-    
-    int[] no = new int[MAX_SIZE];
-    String[] id = new String[MAX_SIZE];
-    String[] email = new String[MAX_SIZE];
-    String[] password = new String[MAX_SIZE];
-    char[] gender = new char[MAX_SIZE];
-    
-    String[] content = new String[MAX_SIZE];
-    int[] isReceipt = new int[MAX_SIZE];
-    int[] starRaiting = new int[MAX_SIZE];
-    
+
     printTitle();
 
-    //리뷰 정보 등록
-    for (int i = 0; i < MAX_SIZE; i++) {
-      inputContents(sc, i, id, email, password, gender, content, isReceipt, starRaiting, no, userId);
-      length++;
+    while (length < MAX_SIZE) {
+      inputContents();
 
-      if (!promptContinue(sc)) {
+      if (!promptContinue()) {
         break;
       }
     }
 
-    printContents(length, no, id, email, gender, content, isReceipt, starRaiting);
+    printContents();
+
     sc.close();
   }
 
@@ -42,84 +51,74 @@ public class App {
     
   }
 
-  static void inputContents(Scanner sc, int i, String[] id, String[] email, String[] password, 
-   char[] gender, String[] content, int[] isReceipt, int[] starRaiting, int[] no, int userId) {
-    
-    System.out.print("아이디를 입력해주세요 : ");
-    id[i] = sc.next();
+  static void inputContents() {
+    id[length] = prompt("아이디를 입력해주세요 : ");
 
-    System.out.print("이메일을 입력해주세요 : ");
-    email[i] = sc.next();
+    email[length] = prompt("이메일을 입력해주세요 : ");
 
-    System.out.print("암호를 입력해주세요 : ");
-    password[i] = sc.next();
+    password[length] = prompt("암호를 입력해주세요 : ");
 
     loop: while (true) {
-      System.out.println("성별을 입력해주세요 : ");
-      System.out.println("  1. 남자");
-      System.out.println("  2. 여자");
-      System.out.println("  3. 선택하지 않음");
       System.out.print("> ");
-      String menuNo = sc.next();
+      String menuNo = prompt("성별을 입력해주세요 : \n" + "  1. 남자\n" +
+      "  2. 여자\n" + "  3. 선택하지 않음\n" + "> ");
 
       switch (menuNo) {
         case "1":
-          gender[i] = 'M';
+          gender[length] = MALE;
           break loop;
         case "2":
-          gender[i] = 'W';
+          gender[length] = FEMALE;
           break loop;
         case "3":
-          gender[i] = 'N';
+          gender[length] = NONSEX;
           break loop;  
         default:
           System.out.println("유효한 번호로 입력해주세요!");
       }
     }
 
-    System.out.print("리뷰 내용을 적어주세요 : ");
-    content[i] = sc.next();
+    content[length] = prompt("리뷰 내용을 적어주세요 : ");
 
     loop: while (true) {
-      System.out.print("영수증 있으신가요? 예: 1, 아니오 : 2): ");
-      int validReceipt = sc.nextInt();
+      int validReceipt = promptInt("영수증 있으신가요? 예: 1, 아니오 : 2): ");
       switch (validReceipt) {
         case 1:
-          isReceipt[i] = 1;
+          isReceipt[length] = YES;
           break loop;
         case 2:
-          isReceipt[i] = 2;
+          isReceipt[length] = NO;
           break loop;
         default:
           System.out.println("유효한 번호로 입력해주세요!");
       }
     }
 
-    while (true) {
-      System.out.print("평점은요 (1, 2, 3, 4, 5)? : ");
-      int validStarRaiting = sc.nextInt();
+    while (true) { 
+      int validStarRaiting = promptInt("평점은요 (1, 2, 3, 4, 5)? : ");
       if (validStarRaiting >= 1 && validStarRaiting <= 5) {
-        starRaiting[i] = validStarRaiting;
+        starRaiting[length] = validStarRaiting;
         break;
       }
       System.out.println("유효한 번호로 입력해주세요!");
     }
+    sc.nextLine();
 
-    no[i] = userId;
-    
+    no[length] = userId++;
+    length++;
   }
 
-  static boolean promptContinue(Scanner sc) {
-    System.out.print("계속 입력하시겠습니까?(Y/n) ");
-    sc.nextLine(); // 이전에 next()를 실행한 후 남아 있던 줄바꿈 코드를 제거한다.
-    String response = sc.nextLine();
+  static boolean promptContinue() {
+    String response = prompt("계속 입력하시겠습니까?(Y/n) ");
+    // sc.nextLine();
+    
     if (!response.equals("") && !response.equalsIgnoreCase("Y")) {
       return false;
     }
     return true;
   }
 
-  static void printContents(int length, int[] no, String[] id, String[] email, char[] gender, String[] content, int[] isReceipt, int[] starRaiting) {
+  static void printContents() {
     System.out.println("---------------------------------------");
 
     for (int i = 0; i < length; i++) {
@@ -130,6 +129,16 @@ public class App {
       System.out.println("영수증 여부 : "+ isReceipt[i] + " 별점 : " + starRaiting[i]);
       System.out.println("---------------------------------------");
     }
+  }
+
+  static String prompt(String title) {
+    System.out.print(title);
+    return sc.nextLine();
+  }
+
+  static Integer promptInt(String title) {
+    System.out.print(title);
+    return sc.nextInt();
   }
 
 }
