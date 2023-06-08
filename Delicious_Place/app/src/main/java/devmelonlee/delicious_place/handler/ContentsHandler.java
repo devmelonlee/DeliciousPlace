@@ -70,6 +70,7 @@ public class ContentsHandler {
       System.out.println("---------------------------------------------");
     }
   }
+
   
   public static void viewContents() { // 3. 리뷰 글 번호 조회
     
