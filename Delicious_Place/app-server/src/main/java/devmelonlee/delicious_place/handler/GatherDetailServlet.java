@@ -3,12 +3,15 @@ package devmelonlee.delicious_place.handler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import devmelonlee.delicious_place.vo.Gather;
+import devmelonlee.delicious_place.vo.GatherCmt;
 
 
 @WebServlet("/gather/detail")
@@ -21,7 +24,9 @@ public class GatherDetailServlet extends HttpServlet {
       throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
 
-    Gather g = InitServlet.gatherDao.findBy(Integer.parseInt(request.getParameter("postId")));
+    int findBy = Integer.parseInt(request.getParameter("postId"));
+
+    Gather g = InitServlet.gatherDao.findBy(findBy);
     PrintWriter out = response.getWriter();
     out.println("<!DOCTYPE html>");
     out.println("<html>");
@@ -103,17 +108,38 @@ public class GatherDetailServlet extends HttpServlet {
           "<button class='button' type='button' onclick=\"location.href='/gather/delete?postId=%d'\">삭제하기</button>",
           g.getPostId());
 
-      // GatherCmt gc =
-      // InitServlet.gatherCmtDao.findBy(Integer.parseInt(request.getParameter("postId")));
-      // out.println("<!DOCTYPE html>");
-      // out.println("<html>");
-      out.println("<hr>");
-      out.println("<h3>댓글 ( )</h3>");
-
-
-
       out.println("</div>");
       out.println("</form>");
+
+
+      // 댓글 구현 부분
+
+
+      List<GatherCmt> listCmt = InitServlet.gatherCmtDao.findAll(findBy);
+      SimpleDateFormat dateFormatter = new SimpleDateFormat("MM-dd HH:mm");
+      out.printf("<h3>댓글 %d개</h3>", listCmt.size());
+      out.println("<hr>");
+
+
+      out.println("<div class='center'>");
+      out.println("<table border='1' style='margin: 0 auto;'>");
+      out.println("<thead>");
+      out.println("  <tr><th>작성자</th> <th>내용</th> <th>등록일</th> <th>수정</th> <th>삭제</th> </tr>");
+      out.println("</thead>");
+
+      // 댓글 테이블 부분
+      for (GatherCmt cmt : listCmt) {
+        out.printf(
+            "<tr> <td>%s</td> <td>%s</td> <td>%s</td> "
+                + "<td><a href='/gatherCmt/update?commentId=%d'>수정</a></td> "
+                + "<td><a href='/gatherCmt/delete?commentId=%d'>삭제</a></td></tr>\n",
+            cmt.getAuthor().getEmail(), cmt.getContent(), dateFormatter.format(cmt.getCreatedAt()),
+            cmt.getCommentId(), cmt.getCommentId());
+      }
+
+      // 댓글 작성 부분(add)
+
+
       try {
         InitServlet.sqlSessionFactory.openSession(false).commit();
 

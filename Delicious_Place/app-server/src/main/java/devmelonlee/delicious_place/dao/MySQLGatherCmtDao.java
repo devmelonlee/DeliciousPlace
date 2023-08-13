@@ -23,7 +23,7 @@ public class MySQLGatherCmtDao implements GatherCmtDao {
   @Override
   public List<GatherCmt> findAll(int id) {
     SqlSession sqlSession = sqlSessionFactory.openSession(false);
-    return sqlSession.selectList(NAMESPACE + "findAll");
+    return sqlSession.selectList(NAMESPACE + "findAll", id);
   }
 
   // 추후 구현

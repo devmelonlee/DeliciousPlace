@@ -51,9 +51,11 @@ public class ContentDetailServlet extends HttpServlet {
     out.println("<meta charset='UTF-8'>");
     out.println("<title>딜리셔스플레이스 - 리뷰 상세 보기</title>");
     out.println("</head>");
+
+    // 리뷰 상세 조회
+
     out.println("<body>");
     out.println("<h1>리뷰 상세 보기</h1>");
-
     if (content == null) {
       out.println("<p>해당 번호의 게시글이 없습니다!</p>");
 
@@ -65,7 +67,8 @@ public class ContentDetailServlet extends HttpServlet {
           + " <td style='width:300px;'><input type='text' name='id' value='%d' readonly></td></tr>\n",
           content.getContentId());
       out.printf(
-          "<tr><th>음식점 이름</th>" + " <td><input type='text' name='title' value='%s'></td></tr>\n",
+          "<tr><th>음식점 이름</th>"
+              + " <td><input type='text' name='storeName' value='%s'></td></tr>\n",
           content.getStoreName());
       out.printf("<tr><th>내용</th>"
           + " <td><textarea name='contents' style='height:200px; width:400px;'>%s</textarea></td></tr>\n",
@@ -108,6 +111,7 @@ public class ContentDetailServlet extends HttpServlet {
           content.getContentId());
       out.println("</div>");
       out.println("</form>");
+
       try {
         content.setViewCount(content.getViewCount() + 1);
         InitServlet.contentDao.updateCount(content);

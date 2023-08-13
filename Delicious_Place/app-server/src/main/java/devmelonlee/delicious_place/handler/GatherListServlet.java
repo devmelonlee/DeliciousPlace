@@ -71,6 +71,7 @@ public class GatherListServlet extends HttpServlet {
         "  <tr><th>번호</th> <th>제목</th> <th>음식점</th> <th>현재인원</th> <th>전체인원</th> <th>약속시간</th> <th>작성자</th> <th>성별</th> <th>작성일시</th> </tr>");
     out.println("</thead>");
 
+    // 게시글 리스트 출력하기
     List<Gather> list = InitServlet.gatherDao.findAll();
     for (Gather g : list) {
       out.printf(
