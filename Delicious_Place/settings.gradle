@@ -13,4 +13,6 @@ plugins {
 }
 
 rootProject.name = 'Delicious_Place'
-include('app')
+// include('app-client')
+include('app-server')
+include('app-common')
