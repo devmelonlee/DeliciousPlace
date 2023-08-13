@@ -3,7 +3,9 @@ package devmelonlee.delicious_place.handler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import devmelonlee.delicious_place.vo.Gather;
 import devmelonlee.delicious_place.vo.GatherCmt;
+import devmelonlee.delicious_place.vo.User;
 
 
 @WebServlet("/gather/detail")
@@ -112,8 +115,7 @@ public class GatherDetailServlet extends HttpServlet {
       out.println("</form>");
 
 
-      // 댓글 구현 부분
-
+      // 댓글 기능 구현 부분
 
       List<GatherCmt> listCmt = InitServlet.gatherCmtDao.findAll(findBy);
       SimpleDateFormat dateFormatter = new SimpleDateFormat("MM-dd HH:mm");
@@ -127,7 +129,8 @@ public class GatherDetailServlet extends HttpServlet {
       out.println("  <tr><th>작성자</th> <th>내용</th> <th>등록일</th> <th>수정</th> <th>삭제</th> </tr>");
       out.println("</thead>");
 
-      // 댓글 테이블 부분
+      // 댓글 테이블 부분(list)
+
       for (GatherCmt cmt : listCmt) {
         out.printf(
             "<tr> <td>%s</td> <td>%s</td> <td>%s</td> "
@@ -137,7 +140,25 @@ public class GatherDetailServlet extends HttpServlet {
             cmt.getCommentId(), cmt.getCommentId());
       }
 
-      // 댓글 작성 부분(add)
+      // 댓글 작성 부분 (add)
+      User loginUser = (User) request.getSession().getAttribute("loginUser");
+      if (loginUser == null) {
+        response.sendRedirect("/auth/form.html");
+        return;
+      }
+
+      GatherCmt cmtAdd = new GatherCmt();
+      cmtAdd.setPostId(findBy);
+      cmtAdd.setAuthor(loginUser);
+      cmtAdd.setContent(request.getParameter("content"));
+      cmtAdd.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+      response.setContentType("text/html;charset=UTF-8");
+
+      out.println("<table border='1' style='margin: 20px auto;'>");
+      out.println("<tr><td>댓글달기</td> <td><input type='text' name='content' ></td>"
+          + " <td><button id='updateAttendees'>확인 및 참가신청</button> </td> </tr>\n");
+      out.println("</table>");
+      out.println("</div>");
 
 
       try {
