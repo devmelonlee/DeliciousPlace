@@ -1,0 +1,22 @@
+[
+  {
+    "no": 2,
+    "id": "melonlsh",
+    "password": "1234",
+    "gender": "M",
+    "storeName": "chick",
+    "contents": "좋아요....",
+    "isReceipt": "✅",
+    "starRating": 5
+  },
+  {
+    "no": 3,
+    "id": "hello",
+    "password": "1234",
+    "gender": "M",
+    "storeName": "맥도날드",
+    "contents": "맛있엉요",
+    "isReceipt": "✅",
+    "starRating": 5
+  }
+]

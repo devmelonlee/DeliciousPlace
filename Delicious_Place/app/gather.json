@@ -1,0 +1,19 @@
+[
+  {
+    "no": 1,
+    "id": "가",
+    "password": "1234",
+    "gender": "M",
+    "storeName": "브롱스",
+    "contents": "good",
+    "reply": "같이가요"
+  },
+  {
+    "no": 2,
+    "id": "hell",
+    "password": "1234",
+    "gender": "M",
+    "storeName": "롯데리아",
+    "contents": "새우버거 좋아요"
+  }
+]
