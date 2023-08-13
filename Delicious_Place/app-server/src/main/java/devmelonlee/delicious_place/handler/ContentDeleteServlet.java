@@ -21,6 +21,12 @@ public class ContentDeleteServlet extends HttpServlet {
 
     response.setContentType("text/html;charset=UTF-8");
 
+    User loginUser = (User) request.getSession().getAttribute("loginUser");
+    if (loginUser == null) {
+      response.sendRedirect("/auth/form.html");
+      return;
+    }
+
     PrintWriter out = response.getWriter();
     out.println("<!DOCTYPE html>");
     out.println("<html>");
@@ -32,14 +38,6 @@ public class ContentDeleteServlet extends HttpServlet {
     out.println("<body>");
     out.println("<h1>리뷰 삭제</h1>");
 
-
-    User loginUser = (User) request.getSession().getAttribute("loginUser");
-    if (loginUser == null) {
-      out.println("<p>삭제 권한이 없습니다!</p>");
-      response.sendRedirect("/auth/form.html");
-      return;
-    }
-
     Content content = new Content();
     content.setContentId(Integer.parseInt(request.getParameter("contentId")));
     content.setAuthor(loginUser);
@@ -50,7 +48,7 @@ public class ContentDeleteServlet extends HttpServlet {
       } else {
         InitServlet.sqlSessionFactory.openSession(false).commit();
         out.println("<meta http-equiv='refresh' content='1;url=/content/list'>");
-        out.println("<p>삭제 되었습니다!</p>");
+        out.println("alert(\"삭제되었습니다! \")");
         response.sendRedirect("/content/list");
       }
 

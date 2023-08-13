@@ -16,7 +16,7 @@ import devmelonlee.delicious_place.vo.Gather;
 public class GatherListServlet extends HttpServlet {
 
   private static final long serialVersionUID = 1L;
-  SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd '오후' hh:mm");
+  SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd hh:mm");
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -62,7 +62,7 @@ public class GatherListServlet extends HttpServlet {
     out.println(
         "<button class= button type= button onclick=\"location.href ='/'\"> &lt; 메인</button>");
     out.println(
-        "<button class= button type= button onclick=\"location.href ='/content/form.html'\"> ✏️ 게더 만들기</button>");
+        "<button class= button type= button onclick=\"location.href ='/gather/form.html'\"> ✏️ 게더 만들기</button>");
     out.println("</div>");
 
     out.println("<table border='1' style='margin: 0 auto;'>");

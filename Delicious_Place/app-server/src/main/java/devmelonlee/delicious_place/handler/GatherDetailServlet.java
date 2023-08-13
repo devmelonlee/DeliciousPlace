@@ -63,10 +63,12 @@ public class GatherDetailServlet extends HttpServlet {
       out.printf("<tr><th style='width:120px;'>번호</th>"
           + " <td style='width:300px;'><input type='text' name='id' value='%d' readonly></td></tr>\n",
           g.getPostId());
-      out.printf("<tr><th>제목</th>" + " <td><input type='text' name='title' value='%s'></td></tr>\n",
+      out.printf(
+          "<tr><th>제목</th>" + " <td><input type='text' name='postName' value='%s'></td></tr>\n",
           g.getPostName());
       out.printf(
-          "<tr><th>음식점</th>" + " <td><input type='text' name='title' value='%s'></td></tr>\n",
+          "<tr><th>음식점 이름</th>"
+              + " <td><input type='text' name='storeName' value='%s'></td></tr>\n",
           g.getStoreName());
       out.printf("<tr><th>내용</th>"
           + " <td><textarea name='content' style='height:200px; width:400px;'>%s</textarea></td></tr>\n",

@@ -48,7 +48,7 @@ public class ContentUpdateServlet extends HttpServlet {
 
     try {
       if (InitServlet.contentDao.update(content) == 0) {
-        out.println("<p>찾는 리뷰가 없습니다.</p>");
+        out.println("<p>찾는 리뷰가 없거나 수정할 권한이 없습니다.</p>");
       } else {
         InitServlet.sqlSessionFactory.openSession(false).commit();
         out.println("<p>변경했습니다!</p>");
