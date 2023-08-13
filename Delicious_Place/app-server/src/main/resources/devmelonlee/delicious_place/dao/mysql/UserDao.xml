@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devmelonlee.delicious_place.dao.UserDao">
+
+  <!-- UserMapper.xml -->
+    
+  <resultMap id="userResultMap" type="user">
+    <id property="id"         column="user_id" />
+    <result property="role"       column="role" />
+    <result property="email"      column="email" />
+    <result property="password"   column="password" />
+    <result property="gender"     column="gender" />
+    <result property="createdAt"  column="created_at" />
+    <result property="updatedAt"  column="updated_at" />
+  </resultMap>
+  
+  <!-- 사용자 생성 -->
+  <insert id="insertUser" parameterType="user">
+    INSERT INTO dp_user (role, email, password, gender, created_at, updated_at)
+    VALUES (#{role}, #{email}, SHA2(#{password}, 256), #{gender}, #{createdAt}, #{updatedAt});
+  </insert>
+  
+  <!-- 사용자 갱신 조회 -->
+  <update id="updateUser" parameterType="user">
+    UPDATE dp_user
+    SET role = #{role}, email = #{email}, password = SHA2(#{password}, 256), gender = #{gender}, updated_at = #{updatedAt}
+    WHERE user_id = #{id};
+  </update>
+  
+    <!-- 사용자 고유 ID로 조회 -->
+  <select id="getUserById" resultMap="userResultMap" parameterType="int">
+    SELECT * FROM dp_user WHERE user_id = #{id};
+  </select>
+  
+  <!-- 이메일로 사용자 조회 -->
+  <select id="getUserByEmail" resultMap="userResultMap" parameterType="String">
+    SELECT * FROM dp_user WHERE email = #{email};
+  </select>
+  
+  <!-- 이메일과 비밀번호로 사용자 조회 -->
+  <select id="getUserByEmailAndPassword" resultMap="userResultMap" parameterType="user">
+    SELECT * FROM dp_user WHERE email = #{email} AND password = SHA2(#{password}, 256);
+  </select>
+  
+  <!-- 사용자 삭제는 구현하지 않음 -->
+</mapper>
+  

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devmelonlee.delicious_place.dao.GatherDao">
+
+  <resultMap type="gather" id="gatherMap">
+    <id     column="post_id"              property="postId"/>
+    <result column="post_name"            property="postName"/>
+    <result column="store_name"           property="storeName"/>
+    <result column="content"              property="content"/>
+    <result column="desired_attendees"    property="desiredAttendees"/>
+    <result column="current_attendees"    property="currentAttendees"/>
+    <result column="appointment_time"     property="appointmentTime"/>
+    <result column="created_at"           property="createdAt"/>
+    <result column="author_id"            property="authorId"/> 
+    
+    <association property="author"        javaType="user">
+      <id     column="user_id"            property="id"/>
+      <result column="email"              property="email"/>
+      <result column="gender"             property="gender"/>
+    </association>
+    
+  </resultMap>
+
+  <insert id="insert" parameterType="gather">
+    insert into dp_gather(
+      post_name, store_name, content, 
+      desired_attendees, current_attendees, appointment_time,
+      created_at, author_id)
+    values(
+    #{postName},#{storeName},#{content},
+    #{desiredAttendees},#{currentAttendees},#{appointmentTime},
+    #{createdAt},#{author.id}
+    )
+  </insert>
+  
+  <select id="findAll" resultMap="gatherMap">
+    select
+      g.post_id,
+      g.post_name,
+      g.store_name,
+      g.content,
+      g.desired_attendees,
+      g.current_attendees,
+      g.appointment_time,
+      g.created_at,
+      u.user_id,
+      u.email,
+      u.gender
+    from
+      dp_gather g inner join dp_user u on g.author_id=u.user_id
+    order by
+      g.post_id desc
+  </select>
+  
+  <select id="findBy" parameterType="int" resultMap="gatherMap">
+    select
+      g.post_id,
+      g.post_name,
+      g.store_name,
+      g.content,
+      g.desired_attendees,
+      g.current_attendees,
+      g.appointment_time,
+      g.created_at,
+      u.user_id,
+      u.email,
+      u.gender
+    from
+      dp_gather g inner join dp_user u on g.author_id=u.user_id
+    where
+      g.post_id=#{postId}
+  </select>
+  
+  <update id="update" parameterType="gather">
+	  update dp_gather set
+	    post_name=#{postName},
+	    store_name=#{storeName},
+	    content=#{content},
+	    desired_attendees=#{desiredAttendees},
+	    current_attendees=#{currentAttendees},
+	    appointment_time=#{appointmentTime},
+	    created_at=#{createdAt}
+	  where 
+	    post_id=#{postId}
+	    and author_id=#{author.id}
+  </update>
+  
+  <update id="updateAttendees" parameterType="int">
+    update dp_gather set
+      urrent_attendees=#{currentAttendees}
+    where
+      post_id=#{postId}
+  </update>
+  
+  <delete id="delete" parameterType="gather">
+    delete from dp_gather
+    where 
+      post_id=#{postId}
+      and author_id=#{author.id}
+  </delete>
+  
+</mapper>
+
+
+
+
+

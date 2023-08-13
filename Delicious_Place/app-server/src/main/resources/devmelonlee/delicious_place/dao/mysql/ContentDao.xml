@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devmelonlee.delicious_place.dao.ContentDao">
+
+  <resultMap type="content" id="contentMap">
+    <id     column="content_id"       property="contentId"/>
+    <result column="store_name"       property="storeName"/>
+    <result column="contents"         property="contents"/>
+    <result column="eat_menu"         property="eatMenu"/>
+    <result column="has_receipt"      property="hasReceipt"/>
+    <result column="star_rating"      property="starRating"/>
+    <result column="like_button"      property="likeButton"/>
+    <result column="view_count"       property="viewCount"/>
+    <result column="created_at"       property="createdAt"/>
+    <result column="author_id"        property="authorId"/> 
+    
+    <association property="author"    javaType="user">
+      <id     column="user_id"        property="id"/>
+      <result column="email"          property="email"/>
+      <result column="gender"         property="gender"/>
+    </association>                       
+    
+  </resultMap>
+
+  <insert id="insert" parameterType="content">
+    insert into dp_content(
+      store_name, contents, eat_Menu,
+      has_receipt, star_rating, like_button,
+      view_count, created_at, author_id)
+    values(
+      #{storeName},#{contents},#{eatMenu},
+      #{hasReceipt},#{starRating},#{likeButton},
+      #{viewCount},#{createdAt},#{author.id}
+      )
+  </insert>
+  
+  <select id="findAll" resultMap="contentMap">
+    select
+      c.content_id,
+      c.store_name,
+      c.contents,
+      c.eat_Menu,
+      c.has_receipt,
+      c.star_rating,
+      c.like_button,
+      c.view_count,
+      c.created_at,
+      u.user_id,
+      u.email,
+      u.gender
+    from
+      dp_content c inner join dp_user u on c.author_id=u.user_id
+    order by
+      c.content_id desc
+  </select>
+  
+  <select id="findBy" parameterType="int" resultMap="contentMap">
+    select
+      c.content_id,
+      c.store_name,
+      c.contents,
+      c.eat_Menu,
+      c.has_receipt,
+      c.star_rating,
+      c.like_button,
+      c.view_count,
+      c.created_at,
+      u.user_id,
+      u.email,
+      u.gender
+    from
+      dp_content c inner join dp_user u on c.author_id=u.user_id
+    where
+      c.content_id=#{contentId}
+  </select>
+  
+  <update id="update" parameterType="content">
+	  update dp_content set
+	    store_name=#{storeName},
+	    contents=#{contents},
+	    eat_Menu=#{eatMenu},
+	    has_receipt=#{hasReceipt},
+	    star_rating=#{starRating}
+	  where 
+	    content_id=#{contentId}
+	    and author_id=#{author.id}
+  </update>
+  
+  <update id="updateCount" parameterType="int">
+    update dp_content set
+      view_count=#{viewCount}
+    where
+      content_id=#{contentId}
+  </update>
+  
+  <delete id="delete" parameterType="content">
+    delete from dp_content
+    where 
+      content_id=#{contentId}
+      and author_id=#{author.id}
+  </delete>
+  
+</mapper>
+
+
+
+
+

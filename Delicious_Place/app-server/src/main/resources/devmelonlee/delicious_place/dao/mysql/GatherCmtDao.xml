@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="devmelonlee.delicious_place.dao.GatherCmtDao">
+
+  <resultMap type="gatherCmt" id="gatherCmtMap">
+    <id     column="comment_id"           property="commentId"/>
+    <result column="post_id"              property="postId"/>
+    <result column="user_id"              property="userId"/>
+    <result column="content"              property="content"/>
+    <result column="created_at"           property="createdAt"/>
+    <result column="updated_at"           property="updatedAt"/>
+    
+    <association property="author"        javaType="user">
+      <id     column="user_id"            property="id"/>
+      <result column="email"              property="email"/>
+      <result column="gender"             property="gender"/>
+    </association>
+    
+    <association property="post"    javaType="gather">
+      <id     column="user_id"            property="postId"/>
+    </association>
+    
+  </resultMap>
+
+  <insert id="insert" parameterType="gather">
+    insert into dp_gather(
+)
+    values(
+    #{postName},#{storeName},#{content},
+    #{desiredAttendees},#{currentAttendees},#{appointmentTime},
+    #{createdAt},#{author.id}
+    )
+  </insert>
+  
+  <select id="findAll" parameterType="int" resultMap="gatherCmtMap">
+    select
+      g.post_id,
+      g.post_name,
+      g.store_name,
+      g.content,
+      g.desired_attendees,
+      g.current_attendees,
+      g.appointment_time,
+      g.created_at,
+      u.user_id,
+      u.email,
+      u.gender
+    from
+      dp_gather g inner join dp_user u on g.author_id=u.user_id
+    order by
+      g.post_id desc
+  </select>
+  
+  <select id="findBy" parameterType="int" resultMap="gatherCmtMap">
+    select
+      g.post_id,
+      g.post_name,
+      g.store_name,
+      g.content,
+      g.desired_attendees,
+      g.current_attendees,
+      g.appointment_time,
+      g.created_at,
+      u.user_id,
+      u.email,
+      u.gender
+    from
+      dp_gather g inner join dp_user u on g.author_id=u.user_id
+    where
+      g.post_id=#{postId}
+  </select>
+
+  
+</mapper>
+
+
+
+
+
