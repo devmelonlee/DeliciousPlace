@@ -14,6 +14,7 @@ import devmelonlee.delicious_place.dao.MySQLGatherCmtDao;
 import devmelonlee.delicious_place.dao.MySQLGatherDao;
 import devmelonlee.delicious_place.dao.MySQLUserDao;
 import devmelonlee.delicious_place.dao.UserDao;
+import devmelonlee.util.NaverMapsConfig;
 import devmelonlee.util.SqlSessionFactoryProxy;
 
 @WebServlet(value = "/init", loadOnStartup = 1)
@@ -26,6 +27,7 @@ public class InitServlet extends HttpServlet {
   public static ContentDao contentDao;
   public static GatherDao gatherDao;
   public static GatherCmtDao gatherCmtDao;
+  public static NaverMapsConfig naverMapsConfig;
 
   @Override
   public void init() throws ServletException {
@@ -39,6 +41,7 @@ public class InitServlet extends HttpServlet {
       contentDao = new MySQLContentDao(sqlSessionFactory);
       gatherDao = new MySQLGatherDao(sqlSessionFactory);
       gatherCmtDao = new MySQLGatherCmtDao(sqlSessionFactory);
+      naverMapsConfig = new NaverMapsConfig();
 
     } catch (Exception e) {
       System.out.println("InitServlet.init() 실행 중 오류 발생!");
