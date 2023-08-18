@@ -48,6 +48,15 @@ local.properties
 .loadpath
 .recommenders
 
+# IntelliJ project files
+.idea
+.idea/*.xml
+*.iml
+out
+gen
+build
+rebel.xml
+
 # External tool builders
 .externalToolBuilders/
 
