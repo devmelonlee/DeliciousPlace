@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import devmelonlee.delicious_place.vo.Content;
 import devmelonlee.delicious_place.vo.User;
 
+
+
 @WebServlet("/content/delete")
 public class ContentDeleteServlet extends HttpServlet {
 
