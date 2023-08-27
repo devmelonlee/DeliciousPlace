@@ -62,7 +62,9 @@ public class ContentListServlet extends HttpServlet {
     out.println(
         "<button class= button type= button onclick=\"location.href ='/'\"> &lt; 메인</button>");
     out.println(
-        "<button class= button type= button onclick=\"location.href ='/content/form.html'\"> ✏️ 리뷰 추가</button>");
+        "<button class= button type= button onclick=\"location.href ='/content/form.jsp" +
+                "'\"> ✏️ 리뷰" +
+                " 추가</button>");
     out.println("</div>");
 
     out.println("<div class='center'>");

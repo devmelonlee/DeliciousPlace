@@ -2,6 +2,7 @@ package devmelonlee.delicious_place.listener;
 
 import devmelonlee.delicious_place.dao.*;
 import devmelonlee.delicious_place.vo.User;
+import devmelonlee.util.NaverMapsConfig;
 import devmelonlee.util.NcpConfig;
 import devmelonlee.util.NcpObjectStorageService;
 import devmelonlee.util.SqlSessionFactoryProxy;
@@ -37,7 +38,7 @@ public class ContextLoaderListener implements ServletContextListener {
       GatherCmtDao gatherCmtDao = new MySQLGatherCmtDao(sqlSessionFactory);
       UserDao userDao = new MySQLUserDao(sqlSessionFactory);
 
-
+      NaverMapsConfig naverMapsConfig = new NaverMapsConfig();
       NcpObjectStorageService ncpObjectStorageService = new NcpObjectStorageService(new NcpConfig());
 
       // 준비한 객체를 꺼내 쓸 수 있도록 보관소에 저장한다.
@@ -48,9 +49,11 @@ public class ContextLoaderListener implements ServletContextListener {
       ctx.setAttribute("gatherCmtDao", gatherCmtDao);
       ctx.setAttribute("userDao", userDao);
 
-
+      ctx.setAttribute("naverMapsConfig", naverMapsConfig);
       ctx.setAttribute("ncpObjectStorageService", ncpObjectStorageService);
       ctx.setAttribute("simpleDateFormatter", new SimpleDateFormat("yyyy-MM-dd"));
+
+      //System.out.println("Client ID: " + clientId);
 
       System.out.println("ContextLoaderListener.contextInitialized() - 공통 객체 준비 완료!");
 

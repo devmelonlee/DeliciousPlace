@@ -143,7 +143,7 @@ public class GatherDetailServlet extends HttpServlet {
       // 댓글 작성 부분 (add)
       User loginUser = (User) request.getSession().getAttribute("loginUser");
       if (loginUser == null) {
-        response.sendRedirect("/auth/form.html");
+        response.sendRedirect("/auth/form.jsp");
         return;
       }
 

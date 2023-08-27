@@ -3,8 +3,11 @@
     pageEncoding="UTF-8"
     contentType="text/html;charset=UTF-8"%>
 
+<%@ page import="devmelonlee.util.NaverMapsConfig" %>
+
 <%
-    final String clientId = naverMapsConfig.getClientId();
+    NaverMapsConfig naverMapsConfig = (NaverMapsConfig) application.getAttribute("naverMapsConfig");
+    String clientId = naverMapsConfig.getClientId();
 %>
 
 

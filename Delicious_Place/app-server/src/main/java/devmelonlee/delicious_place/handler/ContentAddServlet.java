@@ -24,7 +24,7 @@ public class ContentAddServlet extends HttpServlet {
 
     User loginUser = (User) request.getSession().getAttribute("loginUser");
     if (loginUser == null) {
-      response.sendRedirect("/auth/form.html");
+      response.sendRedirect("/auth/form.jsp");
       return;
     }
     Content content = new Content();
