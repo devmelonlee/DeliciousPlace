@@ -3,7 +3,6 @@ package devmelonlee.delicious_place.listener;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
 import javax.servlet.annotation.WebListener;
-import devmelonlee.delicious_place.handler.InitServlet;
 import devmelonlee.util.SqlSessionFactoryProxy;
 
 @WebListener
@@ -15,6 +14,8 @@ public class MyServletRequestListener implements ServletRequestListener {
 
   @Override
   public void requestDestroyed(ServletRequestEvent sre) {
-    ((SqlSessionFactoryProxy) InitServlet.sqlSessionFactory).clean();
+    // ((SqlSessionFactoryProxy) InitServlet.sqlSessionFactory).clean();
+    SqlSessionFactoryProxy sqlSessionFactoryProxy = (SqlSessionFactoryProxy) sre.getServletContext().getAttribute("sqlSessionFactory");
+    sqlSessionFactoryProxy.clean();
   }
 }
