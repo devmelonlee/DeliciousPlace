@@ -13,6 +13,20 @@
     <param-value>devmelonlee/delicious_place/config/mybatis-config.xml</param-value>
   </context-param>
 
+  <servlet>
+    <servlet-name>/content/add.jsp</servlet-name>
+    <jsp-file>/content/add.jsp</jsp-file>
+    <multipart-config>
+      <max-file-size>10000000</max-file-size>
+      <max-request-size>50000000</max-request-size>
+      <file-size-threshold>1000000</file-size-threshold>
+    </multipart-config>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>/content/add.jsp</servlet-name>
+    <url-pattern>/content/add.jsp</url-pattern>
+  </servlet-mapping>
+
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
     <welcome-file>index.html</welcome-file>

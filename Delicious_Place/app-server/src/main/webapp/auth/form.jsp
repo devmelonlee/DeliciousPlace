@@ -180,6 +180,7 @@ span {
 .social-links div:active {
   box-shadow: inset 1px 1px 2px #babebc, inset -1px -1px 2px #fff;
 }
+a {text-decoration-line: none}
 
 </style>
 

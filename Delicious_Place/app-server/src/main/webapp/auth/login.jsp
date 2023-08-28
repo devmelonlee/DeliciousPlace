@@ -18,7 +18,7 @@
       Cookie cookie = new Cookie("email", user.getEmail());
       response.addCookie(cookie);
     } else {
-      Cookie cookie = new Cookie("email", "no");
+      Cookie cookie = new Cookie("email", "id");
       cookie.setMaxAge(0);
       response.addCookie(cookie);
     }

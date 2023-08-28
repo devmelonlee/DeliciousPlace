@@ -51,17 +51,31 @@
       margin-left: auto;
       margin-right: auto;
     }
+    main-title { background-color: #58ACFA; color: white; padding: 10px; margin: 0; }
   </style>
 
 </head>
 <body>
-  <h1>딜리셔스 플레이스</h1>
+  <h1 class='main-title'>딜리셔스 플레이스</h1>
   <div>
-    <button class="button" type="button" onclick="location.href='/content/list'">맛집리뷰</button>
+    <button class="button" type="button" onclick="location.href='/content/list.jsp'">맛집리뷰</button>
     <button class="button" type="button" onclick="location.href='/gather/list'">같이 먹으러가요 - 게더</button>
-    <button class="button" type="button" onclick="location.href='/auth/form.html'">로그인</button>
-    <button class="button" type="button" onclick="location.href='/auth/logout.html'">로그아웃</button>
-    <button class="button" type="button" onclick="location.href='/auth/form.html'">회원 가입하러가기</button>
+
+    <jsp:useBean id="loginUser" class="devmelonlee.delicious_place.vo.User" scope="session"/>
+
+    <% if (loginUser.getId() == 0) { %>
+        <button class="button" type="button" onclick="location.href='/auth/form.jsp'">로그인</button>
+        <button class="button" type="button" onclick="location.href='/auth/form.jsp'">회원 가입하러가기</button>
+    <% } else {
+            if (loginUser != null){ %>
+                <img style='height:40px' src='/images/avatar.png'>
+                ${loginUser.email} 님 안녕하세요
+                <button class="button" type="button" onclick="location.href='/auth/logout.jsp'">로그아웃</button>
+            <% } else { %>
+
+            <% } %>
+    <% } %>
+
   </div>
   <div id="map" style="width: 100%; height: 400px;"></div>
   <script>
