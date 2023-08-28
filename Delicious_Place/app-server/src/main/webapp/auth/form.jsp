@@ -1,3 +1,8 @@
+<%@ page
+  language="java"
+  pageEncoding="UTF-8"
+  contentType="text/html;charset=UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -175,6 +180,7 @@ span {
 .social-links div:active {
   box-shadow: inset 1px 1px 2px #babebc, inset -1px -1px 2px #fff;
 }
+a {text-decoration-line: none}
 
 </style>
 
@@ -215,8 +221,9 @@ span {
         <button class="form_btn">Sign Up</button>
       </form>
     </div>
+
     <div class="sign-in-container">
-      <form action='/auth/login' method="post">
+      <form action='/auth/login.jsp' method="post">
         <h1>오늘은 뭐먹지 🤔 </h1>
         
         <div class="social-links">
@@ -232,8 +239,11 @@ span {
         </div>
         <span> 또는 이메일 계정 사용하기</span>
         
-        <input type="email" name='email' placeholder="Email">
+        <input type="email" name='email' placeholder="email@example.com">
         <input type="password" name='password' placeholder="Password">
+        <div "display: inline-block;">
+            <input type='checkbox' name='saveEmail' ${cookie.email != null ? "checked" : ""}> 이메일 저장하기
+        </div>
         <button class="form_btn">로그인</button>
       </form>
     </div>
@@ -252,6 +262,7 @@ span {
   </div>
 </div>
 </body>
+</html>
 
 
 

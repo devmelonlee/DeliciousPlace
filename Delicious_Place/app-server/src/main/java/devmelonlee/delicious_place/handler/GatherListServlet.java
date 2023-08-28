@@ -62,7 +62,8 @@ public class GatherListServlet extends HttpServlet {
     out.println(
         "<button class= button type= button onclick=\"location.href ='/'\"> &lt; 메인</button>");
     out.println(
-        "<button class= button type= button onclick=\"location.href ='/gather/form.html'\"> ✏️ 게더 만들기</button>");
+        "<button class= button type= button onclick=\"location.href ='/gather/form.jsp'\"> ✏️ 게더 " +
+                "만들기</button>");
     out.println("</div>");
 
     out.println("<table border='1' style='margin: 0 auto;'>");

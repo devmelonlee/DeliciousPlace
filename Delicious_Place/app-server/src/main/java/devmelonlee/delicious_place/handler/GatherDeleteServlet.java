@@ -23,7 +23,7 @@ public class GatherDeleteServlet extends HttpServlet {
 
     User loginUser = (User) request.getSession().getAttribute("loginUser");
     if (loginUser == null) {
-      response.sendRedirect("/auth/form.html");
+      response.sendRedirect("/auth/form.jsp");
       return;
     }
 

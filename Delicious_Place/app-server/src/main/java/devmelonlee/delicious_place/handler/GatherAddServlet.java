@@ -28,7 +28,7 @@ public class GatherAddServlet extends HttpServlet {
 
     User loginUser = (User) request.getSession().getAttribute("loginUser");
     if (loginUser == null) {
-      response.sendRedirect("/auth/form.html");
+      response.sendRedirect("/auth/form.jsp");
       return;
     }
     Gather g = new Gather();
