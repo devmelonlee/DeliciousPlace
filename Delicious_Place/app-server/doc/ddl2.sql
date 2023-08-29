@@ -1,178 +1,200 @@
+CREATE TABLE `user` (
+  `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '유저번호',
+  `role` VARCHAR(50) NOT NULL COMMENT '권한',
+  `activation` CHAR(1) NOT NULL COMMENT '활성화 여부',
+  `email` VARCHAR(40) NOT NULL COMMENT '이메일',
+  `password` VARCHAR(30) NOT NULL COMMENT '비밀번호',
+  `name` VARCHAR(50) NOT NULL COMMENT '아이디',
+  `birthdate` DATE NOT NULL COMMENT '생년월일',
+  `gender` CHAR(1) NOT NULL COMMENT '성별',
+  `file_id` INTEGER COMMENT '유저 이미지 파일 ID',
+  `created_at` DATETIME NOT NULL DEFAULT (now()) COMMENT '생성일시',
+  `updated_at` DATETIME NOT NULL COMMENT '수정일시'
+);
 
-Table "user" {
-  "id" INTEGER [pk, not null, note: '유저번호']
-  "role" VARCHAR(50) [not null, note: '권한']
-  "activation" CHAR(1) [not null, note: '활성화 여부']
-  "email" VARCHAR(40) [not null, note: '이메일']
-  "password" VARCHAR(30) [not null, note: '비밀번호']
-  "name" VARCHAR(50) [not null, note: '아이디']
-  "birthdate" DATE [not null, note: '생년월일']
-  "gender" CHAR(1) [not null, note: '성별']
-  "created_at" DATETIME [not null, note: '생성일시']
-  "updated_at" DATETIME [not null, note: '수정일시']
+CREATE TABLE `post_review` (
+  `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `post_id` INTEGER COMMENT '게시글 번호',
+  `restaurant_id` INTEGER COMMENT '음식점 번호',
+  `has_receipt` CHAR(1) DEFAULT "N" COMMENT '영수증여부',
+  `star_raiting` INTEGER NOT NULL COMMENT '별점'
+);
 
-Indexes {
-  email [unique, name: "UIX_user"]
-}
-  Note: '유저'
-}
+CREATE TABLE `post_comment` (
+  `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '댓글번호',
+  `post_id` INTEGER COMMENT '게시글 번호',
+  `user_id` INTEGER COMMENT '유저번호(글쓴이)',
+  `content` MEDIUMTEXT NOT NULL COMMENT '내용',
+  `created_at` DATETIME NOT NULL DEFAULT (now()) COMMENT '생성일시',
+  `updated_at` DATETIME NOT NULL COMMENT '수정일시'
+);
 
-Table "post_review" {
-  "id" INTEGER [pk, not null, note: 'id']
-  "post_id" INTEGER [note: '게시글 번호']
-  "restaurant_id" INTEGER [note: '음식점 번호']
-  "has_receipt" CHAR(1) [note: '영수증여부']
-  "star_raiting" INTEGER [not null, note: '별점']
-  "created_at" DATETIME [not null, note: '생성일']
-  Note: '게시글_리뷰'
-}
+CREATE TABLE `post` (
+  `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '게시글 번호',
+  `user_id` INTEGER NOT NULL COMMENT '유저번호',
+  `title` VARCHAR(255) NOT NULL COMMENT '제목',
+  `content` MEDIUMTEXT NOT NULL COMMENT '내용',
+  `view_count` INTEGER NOT NULL COMMENT '조회수',
+  `category` INTEGER NOT NULL COMMENT '카테고리',
+  `created_at` DATETIME NOT NULL DEFAULT (now()) COMMENT '생성일시',
+  `updated_at` DATETIME NOT NULL COMMENT '수정일시'
+);
 
-Table "post_comment" {
-  "id" INTEGER [pk, not null, note: '댓글번호']
-  "post_id" INTEGER [note: '게시글 번호']
-  "user_id" INTEGER [note: '유저번호(글쓴이)']
-  "content" MEDIUMTEXT [not null, note: '내용']
-  "created_at" DATETIME [not null, note: '생성일시']
-  Note: '게시글_댓글'
-}
+CREATE TABLE `restaurant` (
+  `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '음식점 번호',
+  `name` VARCHAR(50) NOT NULL COMMENT '음식점 이름',
+  `addr` VARCHAR(255) COMMENT '주소',
+  `tel` VARCHAR(30) COMMENT '전화번호',
+  `restaurant_type_id` INTEGER COMMENT '음식점 종류 코드',
+  `menu_id` INTEGER COMMENT '메뉴 번호',
+  `file_id` INTEGER COMMENT '주소 이미지 파일 ID'
+);
 
-Table "post" {
-  "id" INTEGER [pk, not null, note: '게시글 번호']
-  "user_id" INTEGER [not null, note: '유저번호']
-  "title" VARCHAR(255) [not null, note: '제목']
-  "content" MEDIUMTEXT [not null, note: '내용']
-  "view_count" INTEGER [not null, note: '조회수']
-  "category" INTEGER [not null, note: '카테고리']
-  "created_at" DATETIME [not null, note: '생성일시']
-  "updated_at" DATETIME [not null, note: '수정일시']
-  Note: '게시글'
-}
+CREATE TABLE `like_list` (
+  `post_id` INTEGER NOT NULL COMMENT '게시글 번호',
+  `user_id` INTEGER NOT NULL COMMENT '유저번호',
+  PRIMARY KEY (`post_id`, `user_id`)
+);
 
-Table "restaurant" {
-  "id" INTEGER [pk, not null, note: '음식점 번호']
-  "name" VARCHAR(50) [not null, note: '음식점 이름']
-  "addr" VARCHAR(255) [note: '주소']
-  "tel" VARCHAR(30) [note: '전화번호']
-  "restaurant_type_id" INTEGER [note: '음식점 종류 코드']
-  "menu_id" INTEGER [note: '메뉴 번호']
-  "file_id" INTEGER [note: '주소 이미지 파일 ID']
-  Note: '음식점'
-}
+CREATE TABLE `restaurant_type` (
+  `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '음식점 종류 코드',
+  `category` INTEGER NOT NULL COMMENT '음식점 종류'
+);
 
-Table "like_list" {
-  "post_id" INTEGER [not null, note: '게시글 번호']
-  "user_id" INTEGER [not null, note: '유저번호']
+CREATE TABLE `restaurant_menu` (
+  `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '메뉴 번호',
+  `menu` VARCHAR(50) NOT NULL COMMENT '메뉴명',
+  `menu_price` INTEGER COMMENT '가격'
+);
 
-Indexes {
-  (post_id, user_id) [pk]
-}
-  Note: '좋아요'
-}
+CREATE TABLE `post_gather` (
+  `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '모임번호',
+  `restaruant_id` INTEGER NOT NULL COMMENT '음식점 번호',
+  `desired_attendees` INTEGER NOT NULL COMMENT '참석 인원수',
+  `appointment_time` DATETIME NOT NULL COMMENT '약속 시간'
+);
 
-Table "restaurant_type" {
-  "id" INTEGER [pk, not null, note: '음식점 종류 코드']
-  "category" INTEGER [not null, note: '음식점 종류']
-  Note: '음식점 종류'
-}
+CREATE TABLE `file_menu_resource` (
+  `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT '메뉴사진번호',
+  `menu_id` INTEGER NOT NULL COMMENT '메뉴 번호',
+  `file_id` INTEGER NOT NULL COMMENT '파일ID'
+);
 
-Table "restaurant_menu" {
-  "id" INTEGER [pk, not null, note: '메뉴 번호']
-  "menu" VARCHAR(50) [not null, note: '메뉴명']
-  "menu_price" INTEGER [note: '가격']
-  Note: '음식점_메뉴'
-}
+CREATE TABLE `gather_list` (
+  `user_id` INTEGER NOT NULL COMMENT '유저번호',
+  `gather_id` INTEGER NOT NULL COMMENT '모임번호',
+  PRIMARY KEY (`user_id`, `gather_id`)
+);
 
-Table "gather" {
-  "id" INTEGER [pk, not null, note: '모임번호']
-  "restaruant_id" INTEGER [not null, note: '음식점 번호']
-  "desired_attendees" INTEGER [not null, note: '참석 인원수']
-  "appointment_time" DATETIME [not null, note: '약속 시간']
-  Note: '게더(모임)'
-}
+CREATE TABLE `file_common` (
+  `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `file_type` VARCHAR(10) NOT NULL COMMENT '파일타입(Image, zip)',
+  `file_path` VARCHAR(255) NOT NULL COMMENT 'Path',
+  `file_category` VARCHAR(255) COMMENT '사용처(리뷰, 메뉴, 레스토랑)',
+  `original_name` VARCHAR(255) NOT NULL COMMENT '원본파일명',
+  `save_name` VARCHAR(255) COMMENT '변경파일명',
+  `is_temp` CHAR(1) DEFAULT "N" COMMENT '임시저장유무',
+  `temp_save_date` DATETIME COMMENT '임시저장기한',
+  `created_at` DATETIME COMMENT '파일생성일',
+  `user_id` INTEGER NOT NULL COMMENT '유저번호'
+);
 
-Table "file_menu_resource" {
-  "id" INTEGER [pk, not null, note: '메뉴사진번호']
-  "menu_id" INTEGER [not null, note: '메뉴 번호']
-  "file_id" INTEGER [not null, note: '파일ID']
-  Note: '메뉴파일Resource'
-}
+CREATE TABLE `file_review_resource` (
+  `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `review_id` INTEGER NOT NULL COMMENT '리뷰ID',
+  `file_id` INTEGER NOT NULL COMMENT '파일ID'
+);
 
-Table "gather_list" {
-  "user_id" INTEGER [not null, note: '유저번호']
-  "gather_id" INTEGER [not null, note: '모임번호']
+CREATE TABLE `path_common` (
+  `id` INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `use` VARCHAR(255) NOT NULL COMMENT '사용처',
+  `fix_path` VARCHAR(255) NOT NULL COMMENT '고정경로'
+);
 
-Indexes {
-  (user_id, gather_id) [pk]
-}
-  Note: '게더(모임)_참가한 인원'
-}
+CREATE UNIQUE INDEX `UIX_user` ON `user` (`email`);
 
-Table "file_common" {
-  "id" INTEGER [pk, not null, note: 'ID']
-  "file_type" VARCHAR(10) [not null, note: '파일타입(Image, zip)']
-  "file_path" VARCHAR(255) [not null, note: 'Path']
-  "file_category" VARCHAR(255) [note: '사용처(리뷰, 메뉴, 레스토랑)']
-  "original_name" VARCHAR(255) [not null, note: '원본파일명']
-  "save_name" VARCHAR(255) [note: '변경파일명']
-  "is_temp" CHAR(1) [note: '임시저장유무']
-  "temp_save_date" DATETIME [note: '임시저장기한']
-  "created_at" DATETIME [note: '파일생성일']
-  "user_id" INTEGER [not null, note: '유저번호']
+CREATE UNIQUE INDEX `UIX_file_common` ON `file_common` (`file_type`);
 
-Indexes {
-  file_type [unique, name: "UIX_file_common"]
-}
-  Note: '파일공통'
-}
+ALTER TABLE `user` COMMENT = '유저';
 
-Table "file_review_resource" {
-  "id" INTEGER [pk, not null, note: 'ID']
-  "review_id" INTEGER [not null, note: '리뷰ID']
-  "file_id" INTEGER [not null, note: '파일ID']
-  Note: '리뷰파일Resource'
-}
+ALTER TABLE `post_review` COMMENT = '게시글_리뷰';
 
-Table "path_common" {
-  "id" INTEGER [pk, not null, note: 'ID']
-  "use" VARCHAR(255) [not null, note: '사용처']
-  "fix_path" VARCHAR(255) [not null, note: '고정경로']
-  Note: '공통패스'
-}
+ALTER TABLE `post_comment` COMMENT = '게시글_댓글';
 
-Ref:"restaurant"."id" < "post_review"."restaurant_id"
+ALTER TABLE `post` COMMENT = '게시글';
 
-Ref:"post"."id" < "post_review"."post_id"
+ALTER TABLE `restaurant` COMMENT = '음식점';
 
-Ref:"user"."id" < "post_comment"."user_id"
+ALTER TABLE `like_list` COMMENT = '좋아요';
 
-Ref:"post"."id" < "post_comment"."post_id"
+ALTER TABLE `restaurant_type` COMMENT = '음식점 종류';
 
-Ref:"user"."id" < "post"."user_id"
+ALTER TABLE `restaurant_menu` COMMENT = '음식점_메뉴';
 
-Ref:"restaurant_type"."id" < "restaurant"."restaurant_type_id"
+ALTER TABLE `post_gather` COMMENT = '게더(모임)';
 
-Ref:"restaurant_menu"."id" < "restaurant"."menu_id"
+ALTER TABLE `file_menu_resource` COMMENT = '메뉴파일Resource';
 
-Ref:"file_common"."id" < "restaurant"."file_id"
+ALTER TABLE `gather_list` COMMENT = '게더(모임)_참가한 인원';
 
-Ref:"post"."id" < "like_list"."post_id"
+ALTER TABLE `file_common` COMMENT = '파일공통';
 
-Ref:"user"."id" < "like_list"."user_id"
+ALTER TABLE `file_review_resource` COMMENT = '리뷰파일Resource';
 
-Ref:"post"."id" < "gather"."id"
+ALTER TABLE `path_common` COMMENT = '공통패스';
 
-Ref:"restaurant"."id" < "gather"."restaruant_id"
+ALTER TABLE `post_review` ADD FOREIGN KEY (`restaurant_id`) REFERENCES `restaurant` (`id`);
 
-Ref:"restaurant_menu"."id" < "file_menu_resource"."menu_id"
+ALTER TABLE `post_review` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`id`);
 
-Ref:"file_common"."id" < "file_menu_resource"."file_id"
+ALTER TABLE `post_comment` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
-Ref:"user"."id" < "gather_list"."user_id"
+ALTER TABLE `post_comment` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`id`);
 
-Ref:"gather"."id" < "gather_list"."gather_id"
+ALTER TABLE `post` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
-Ref:"user"."id" < "file_common"."user_id"
+ALTER TABLE `restaurant` ADD FOREIGN KEY (`restaurant_type_id`) REFERENCES `restaurant_type` (`id`);
 
-Ref:"post_review"."id" < "file_review_resource"."review_id"
+ALTER TABLE `restaurant` ADD FOREIGN KEY (`menu_id`) REFERENCES `restaurant_menu` (`id`);
 
-Ref:"file_common"."id" < "file_review_resource"."file_id"
+ALTER TABLE `user` ADD FOREIGN KEY (`file_id`) REFERENCES `file_common` (`id`);
+
+ALTER TABLE `restaurant` ADD FOREIGN KEY (`file_id`) REFERENCES `file_common` (`id`);
+
+ALTER TABLE `like_list` ADD FOREIGN KEY (`post_id`) REFERENCES `post` (`id`);
+
+ALTER TABLE `like_list` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+ALTER TABLE `post_gather` ADD FOREIGN KEY (`id`) REFERENCES `post` (`id`);
+
+ALTER TABLE `post_gather` ADD FOREIGN KEY (`restaruant_id`) REFERENCES `restaurant` (`id`);
+
+ALTER TABLE `file_menu_resource` ADD FOREIGN KEY (`menu_id`) REFERENCES `restaurant_menu` (`id`);
+
+ALTER TABLE `file_menu_resource` ADD FOREIGN KEY (`file_id`) REFERENCES `file_common` (`id`);
+
+ALTER TABLE `gather_list` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+ALTER TABLE `gather_list` ADD FOREIGN KEY (`gather_id`) REFERENCES `post_gather` (`id`);
+
+ALTER TABLE `file_common` ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+ALTER TABLE `file_review_resource` ADD FOREIGN KEY (`review_id`) REFERENCES `post_review` (`id`);
+
+ALTER TABLE `file_review_resource` ADD FOREIGN KEY (`file_id`) REFERENCES `file_common` (`id`);
+
+
+DROP TABLE IF EXISTS `file_review_resource`;
+DROP TABLE IF EXISTS `path_common`;
+DROP TABLE IF EXISTS `file_common`;
+DROP TABLE IF EXISTS `gather_list`;
+DROP TABLE IF EXISTS `file_menu_resource`;
+DROP TABLE IF EXISTS `post_gather`;
+DROP TABLE IF EXISTS `restaurant_menu`;
+DROP TABLE IF EXISTS `restaurant_type`;
+DROP TABLE IF EXISTS `like_list`;
+DROP TABLE IF EXISTS `restaurant`;
+DROP TABLE IF EXISTS `post_comment`;
+DROP TABLE IF EXISTS `post_review`;
+DROP TABLE IF EXISTS `post`;
+DROP TABLE IF EXISTS `user`;
