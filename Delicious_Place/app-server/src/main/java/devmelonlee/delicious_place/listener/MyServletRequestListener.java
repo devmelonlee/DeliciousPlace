@@ -15,7 +15,7 @@ public class MyServletRequestListener implements ServletRequestListener {
   @Override
   public void requestDestroyed(ServletRequestEvent sre) {
     // ((SqlSessionFactoryProxy) InitServlet.sqlSessionFactory).clean();
-    SqlSessionFactoryProxy sqlSessionFactoryProxy = (SqlSessionFactoryProxy) sre.getServletContext().getAttribute("sqlSessionFactory");
-    sqlSessionFactoryProxy.clean();
+//    SqlSessionFactoryProxy sqlSessionFactoryProxy = (SqlSessionFactoryProxy) sre.getServletContext().getAttribute("sqlSessionFactory");
+//    sqlSessionFactoryProxy.clean();
   }
 }

@@ -1,4 +1,4 @@
-package devmelonlee.util;
+package devmelonlee.delicious_place.config;
 
 public class NaverMapsConfig {
 
