@@ -40,7 +40,7 @@
   </select>
   
   <!-- 이메일과 비밀번호로 사용자 조회 -->
-  <select id="getUserByEmailAndPassword" resultMap="userResultMap" parameterType="user">
+  <select id="getUserByEmailAndPassword" resultMap="userResultMap">
     SELECT * FROM dp_user WHERE email = #{email} AND password = SHA2(#{password}, 256);
   </select>
   

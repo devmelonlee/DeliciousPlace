@@ -1,6 +1,7 @@
 package devmelonlee.delicious_place.dao;
 
 import devmelonlee.delicious_place.vo.User;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserDao {
 
@@ -12,7 +13,7 @@ public interface UserDao {
 
   String getUserByEmail(String email);
 
-  User getUserByEmailAndPassword(User user);
+  User getUserByEmailAndPassword(@Param("email") String email, @Param("password") String password);
 
 
 }
