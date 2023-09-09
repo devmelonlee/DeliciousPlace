@@ -69,5 +69,4 @@ public class AppConfig {
 
     return new DataSourceTransactionManager(dataSource);
   }
-
 }
